@@ -1,0 +1,109 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --color-white: #FFFFFF;
+    --color-blush-bg: #FFF8FB;
+    --color-powder-pink: #F6D6E2;
+    --color-soft-pink: #EBAFC5;
+    --color-action-rose: #A93665;
+    --color-deep-rose: #762747;
+    --color-text-primary: #30232B;
+    --color-text-secondary: #796670;
+    --color-border-rose: #EEDDE5;
+  }
+
+  html, body {
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    color: #30232B;
+    background-color: #FFF8FB;
+    scroll-behavior: smooth;
+    scroll-padding-top: 6rem;
+    overflow-x: hidden;
+    max-width: 100vw;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *, ::before, ::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+.font-serif-title {
+  font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.font-script-accent {
+  font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.font-sans-body {
+  font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+/* 3D Envelope & Pink Neon Circumference Styles */
+.perspective-1200 {
+  perspective: 1200px;
+}
+
+.transform-style-3d {
+  transform-style: preserve-3d;
+}
+
+.backface-hidden {
+  backface-visibility: hidden;
+}
+
+@keyframes neon-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.neon-pink-ring {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3px;
+  border-radius: 9999px;
+  overflow: hidden;
+  box-shadow:
+    0 0 18px rgba(255, 77, 148, 0.75),
+    0 0 36px rgba(169, 54, 101, 0.55),
+    inset 0 0 12px rgba(255, 182, 213, 0.6);
+}
+
+.neon-pink-ring::before {
+  content: "";
+  position: absolute;
+  width: 220%;
+  height: 220%;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg,
+    #F6D6E2 60deg,
+    #ff2a85 130deg,
+    #ffffff 180deg,
+    #ff2a85 230deg,
+    #A93665 300deg,
+    transparent 360deg
+  );
+  animation: neon-spin 2.6s linear infinite;
+}
+
+

@@ -1,0 +1,6 @@
+{
+  "name": "Joseph & Marie — Mariage 1er Décembre 2026",
+  "description": "Site officiel et système d'invitations privées personnalisées pour la célébration du mariage de Joseph & Marie le mardi 1er décembre 2026 à Yaoundé.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

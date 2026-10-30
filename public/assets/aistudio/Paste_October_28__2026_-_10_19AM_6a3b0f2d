@@ -1,0 +1,1116 @@
+Tu es un directeur artistique senior, un expert UX/UI et un développeur full-stack spécialisé dans les sites événementiels premium et les invitations privées personnalisées.
+
+MISSION
+
+Conçois et développe une application web complète pour le mariage de :
+
+JOSEPH & MARIE
+
+Date :
+Mardi 1er décembre 2026.
+
+Thème :
+Rose & Blanc.
+
+Lieux communiqués :
+- Mairie de Yaoundé 1.
+- Église : nom et adresse à renseigner.
+- Domicile des mariés à Simbock.
+- Lieu de la grande soirée : à confirmer.
+
+Le site doit être élégant, romantique, contemporain, parfaitement responsive et fonctionnel.
+
+La fonctionnalité centrale est un système d’invitations personnalisées :
+un seul site de base, des liens privés différents pour chaque invitation, des événements autorisés par l’administrateur et des règles d’accompagnement propres à chaque invité.
+
+Ne produis pas seulement une maquette.
+Développe l’interface, les données, les règles d’accès et l’administration.
+
+────────────────────────────────────
+1. PRINCIPE FONDAMENTAL
+────────────────────────────────────
+
+Le site possède :
+
+A. Une page publique générale.
+
+B. Une page d’invitation personnalisée accessible par un lien privé.
+
+C. Une administration sécurisée.
+
+Depuis l’administration, l’organisateur doit pouvoir :
+- Saisir le nom de l’invité.
+- Définir une invitation individuelle, en couple ou familiale.
+- Définir le nombre de personnes autorisées.
+- Cocher les événements accessibles.
+- Prévisualiser l’invitation.
+- Générer un lien privé.
+- Copier ou partager ce lien.
+- Consulter les réponses.
+- Modifier ou révoquer l’invitation.
+
+Exemple :
+
+Invitation de « Madame Clarisse » :
+- Église : oui.
+- Soirée : oui.
+- Mairie : non.
+- Réception au domicile : non.
+- Vin d’honneur : non.
+- Accompagnement : une personne autorisée.
+
+Son lien doit afficher :
+- Une salutation personnalisée.
+- Les informations complètes de l’église.
+- Les informations complètes de la soirée.
+- Le dress code correspondant.
+- Une confirmation de présence adaptée.
+- Aucune information privée sur les autres événements.
+
+IMPORTANT :
+Les événements non autorisés ne doivent pas être transmis au navigateur dans les réponses API de l’invité.
+
+Ne pas simplement télécharger tout le programme puis masquer des composants avec CSS.
+
+────────────────────────────────────
+2. IDENTITÉ VISUELLE
+────────────────────────────────────
+
+Direction :
+faire-part de mariage premium, romantique et contemporain.
+
+Palette :
+- Blanc : #FFFFFF.
+- Blanc rosé : #FFF8FB.
+- Rose poudré : #F6D6E2.
+- Rose doux : #EBAFC5.
+- Rose soutenu pour les actions : #A93665.
+- Rose profond : #762747.
+- Texte principal : #30232B.
+- Texte secondaire : #796670.
+- Bordures : #EEDDE5.
+
+Le blanc domine.
+Le rose structure les accents et les interactions.
+Les textes doivent rester très lisibles.
+
+Typographies :
+- Poppins pour la navigation, les boutons, les formulaires et les textes.
+- Une police de titre élégante, par exemple une serif raffinée.
+- Une police manuscrite peut être utilisée uniquement pour un très court accent.
+- Prévoir des polices de secours.
+
+Style :
+- Grandes respirations.
+- Photographies généreuses.
+- Coins arrondis.
+- Fines bordures.
+- Ombres douces.
+- Boutons capsule.
+- Détails floraux ou courbes très discrets.
+
+Éviter :
+- Les cœurs animés partout.
+- Les dégradés excessifs.
+- Les blocs identiques répétitifs.
+- L’aspect template générique.
+- Les vidéos lourdes automatiques.
+- La musique automatique.
+
+────────────────────────────────────
+3. HEADER BUBBLE
+────────────────────────────────────
+
+Créer un header flottant en forme de capsule.
+
+Ordinateur :
+- Centré.
+- Largeur maximale cohérente.
+- Espacé du haut de l’écran.
+- Fond blanc légèrement translucide.
+- Bordure rose très fine.
+- Ombre délicate.
+- Très grands arrondis.
+- Monogramme J & M à gauche.
+- Navigation au centre.
+- Bouton « Confirmer ma présence » à droite.
+
+Sur l’invitation privée :
+la navigation ne contient que les sections réellement disponibles pour cet invité.
+
+Ne pas afficher un onglet « Soirée » à une personne qui n’y est pas invitée.
+
+Sur mobile :
+- Capsule compacte.
+- Monogramme.
+- Bouton menu.
+- Accès à la confirmation.
+- Panneau de navigation accessible.
+- Gestion du focus.
+- Fermeture par Échap.
+- Aucun débordement horizontal.
+
+Le header ne doit pas masquer les titres lors de la navigation par ancres.
+
+────────────────────────────────────
+4. STRUCTURE ET ROUTES
+────────────────────────────────────
+
+Routes proposées :
+
+/ → page publique générale.
+/invitation/:token → invitation privée.
+/invitation/:token/reponse → confirmation si une page distincte est utile.
+/admin → tableau de bord.
+/admin/invitations → gestion des invitations.
+/admin/invitations/nouvelle → formulaire.
+/admin/invitations/:id → édition et suivi.
+/admin/evenements → événements.
+/admin/reponses → réponses.
+/admin/souvenirs → modération des médias.
+/confidentialite → notice.
+
+Prévoir :
+- Page 404.
+- Invitation inexistante.
+- Invitation révoquée.
+- Invitation expirée si cette option est utilisée.
+- Backend indisponible.
+
+Un lien invalide ne doit pas révéler le nom d’un invité ni l’existence d’événements privés.
+
+────────────────────────────────────
+5. PAGE PUBLIQUE GÉNÉRALE
+────────────────────────────────────
+
+La page publique est une présentation sobre du mariage.
+
+Afficher :
+- Joseph & Marie.
+- Date.
+- Thème Rose & Blanc.
+- Message général.
+- Invitation à consulter son lien personnel.
+
+Ne pas publier par défaut :
+- L’adresse du domicile.
+- Le lieu privé de la soirée.
+- Le programme complet.
+- La liste des invités.
+- Les liens personnalisés.
+- Les réponses de présence.
+
+Texte :
+
+« Joseph & Marie
+Une journée d’amour, d’engagement et de célébration.
+
+Nous avons la joie de célébrer notre union le mardi 1er décembre 2026.
+
+Pour découvrir les détails de votre invitation et nous transmettre votre réponse, veuillez utiliser le lien personnel qui vous a été adressé. »
+
+Ne pas proposer une recherche publique par nom permettant de retrouver les invitations.
+
+────────────────────────────────────
+6. ACCUEIL PERSONNALISÉ
+────────────────────────────────────
+
+Chaque invitation doit contenir :
+
+- Nom d’affichage.
+- Message adapté au type d’invitation.
+- Date.
+- Événements autorisés.
+- Nombre de personnes conviées.
+- Bouton de réponse.
+- Informations pratiques pertinentes.
+
+Exemples :
+
+Individuel :
+« Chère Aline,
+nous serions heureux de vous compter parmi nous. »
+
+Couple nommé :
+« Chers Aline et Patrick,
+nous serions heureux de partager cette journée avec vous. »
+
+Invité avec accompagnant non nommé :
+« Chère Aline,
+vous êtes invitée à partager ce moment avec la personne de votre choix. »
+
+Famille :
+« Chère famille [nom],
+nous avons le plaisir de vous inviter à célébrer notre union. »
+
+Permettre à l’administrateur de personnaliser la salutation sans imposer de genre déduit automatiquement.
+
+Afficher :
+« Cette invitation est prévue pour X personne(s). »
+
+Ne pas confondre :
+- Lien d’invitation.
+- Personne invitée.
+- Nombre de places autorisées.
+
+Une invitation peut représenter plusieurs personnes sans nécessiter plusieurs liens.
+
+────────────────────────────────────
+7. CONTENU ÉDITORIAL
+────────────────────────────────────
+
+Utiliser les informations fournies avec une rédaction élégante, sans répétitions excessives.
+
+Introduction :
+
+« Une union, une promesse, une nouvelle vie.
+
+C’est avec une immense joie que Joseph et Marie vous invitent à partager l’un des plus beaux jours de leur vie : la célébration de leur mariage.
+
+Entourés de leurs familles, de leurs amis et des personnes qui leur sont chères, ils souhaitent vivre ce moment dans une atmosphère d’amour, d’élégance et de convivialité.
+
+Votre présence sera pour eux un précieux témoignage d’affection et de soutien. »
+
+Ne pas inventer :
+- L’histoire de leur rencontre.
+- Une date de fiançailles.
+- Le nom de leurs parents.
+- Une citation personnelle.
+- Le nombre d’années de relation.
+- Une biographie.
+
+Photographies :
+utiliser uniquement celles fournies ou autorisées.
+Sans photos, réaliser une composition typographique avec le monogramme J & M.
+
+────────────────────────────────────
+8. LES CINQ ÉVÉNEMENTS
+────────────────────────────────────
+
+Créer cinq événements distincts, sélectionnables indépendamment.
+
+EVENT 1 — MARIAGE CIVIL
+
+Identifiant :
+civil.
+
+Titre :
+« Le mariage civil »
+
+Date :
+1er décembre 2026.
+
+Heure :
+11 h 30.
+
+Lieu :
+Mairie de Yaoundé 1.
+
+Description :
+« Joseph et Marie officialiseront leur union lors de la cérémonie civile, entourés de leurs proches. »
+
+Dress code :
+« Tenue de ville élégante et soignée. »
+
+Informations associées :
+- Photos avec les mariés après la cérémonie.
+- Petite collation offerte aux invités présents à la mairie.
+
+Adresse exacte et lien de localisation :
+à renseigner.
+
+EVENT 2 — CÉRÉMONIE RELIGIEUSE
+
+Identifiant :
+church.
+
+Titre :
+« La cérémonie religieuse »
+
+Date :
+1er décembre 2026.
+
+Heure :
+14 h 30.
+
+Nom de l’église :
+à renseigner.
+
+Adresse :
+à renseigner.
+
+Description :
+« Un moment de recueillement, de bénédiction et d’émotion pour accompagner Joseph et Marie dans leur engagement. »
+
+Tenue :
+« Une tenue élégante, adaptée à la cérémonie. »
+
+Ne pas inventer la confession, le nom du célébrant ou le lieu.
+
+EVENT 3 — ACCUEIL AU DOMICILE
+
+Identifiant :
+home_reception.
+
+Titre :
+« Un moment au domicile des mariés »
+
+Date :
+1er décembre 2026.
+
+Horaire :
+après la cérémonie religieuse, sans heure précise inventée.
+
+Lieu :
+Domicile des mariés à Simbock.
+
+Adresse privée :
+à renseigner.
+
+Description :
+« Une rencontre familiale et chaleureuse pour partager les premières émotions de cette journée et adresser ses vœux aux nouveaux mariés. »
+
+L’adresse du domicile est réservée aux invitations autorisées.
+
+EVENT 4 — VIN D’HONNEUR
+
+Identifiant :
+cocktail.
+
+Titre :
+« Le vin d’honneur et les photos »
+
+Date :
+1er décembre 2026.
+
+Heure :
+à préciser.
+
+Lieu :
+à confirmer.
+
+Description :
+« Un moment privilégié pour féliciter les mariés, échanger avec les familles et prendre des photos souvenirs. »
+
+Ne pas supposer que le vin d’honneur se déroule au domicile.
+Prévoir un lieu indépendant ou une association explicitement validée.
+
+EVENT 5 — GRANDE SOIRÉE
+
+Identifiant :
+evening.
+
+Titre :
+« La grande soirée de mariage »
+
+Début :
+1er décembre 2026 à 20 h.
+
+Fin :
+jusqu’à l’aube, sans heure de fin fictive.
+
+Lieu :
+à confirmer.
+
+Description :
+« Une soirée de musique, de danse et de partage pour célébrer l’amour de Joseph et Marie dans une ambiance festive et élégante. »
+
+Dress code :
+« Tenue de soirée pour les femmes comme pour les hommes. »
+
+Thème vestimentaire :
+« Rose & Blanc ».
+
+Ne pas supposer que la soirée se déroule à Simbock tant que cela n’est pas confirmé.
+
+────────────────────────────────────
+9. AFFICHAGE SELON LES AUTORISATIONS
+────────────────────────────────────
+
+Chaque invitation possède une liste d’événements autorisés.
+
+Le site doit adapter :
+- La navigation.
+- Le programme.
+- Les cartes pratiques.
+- Les dress codes.
+- Les liens Maps.
+- Les fichiers agenda.
+- Le formulaire de réponse.
+- Les rappels.
+- Les éventuels médias privés.
+- Le texte de partage.
+
+Ne pas écrire :
+« Retrouvez-nous dès 11 h 30 »
+à une personne invitée uniquement à la soirée.
+
+Ne pas afficher de trous :
+pas de section vide, pas de numérotation laissant deviner des événements masqués.
+
+Utiliser :
+« Votre programme »
+et
+« Les moments que nous partagerons ».
+
+Éviter les formulations maladroites :
+- « Vous n’êtes pas invité à… »
+- « Accès refusé à la mairie ».
+- « Formule limitée ».
+
+Présenter uniquement ce qui concerne la personne.
+
+────────────────────────────────────
+10. FORMULAIRE ADMINISTRATEUR
+────────────────────────────────────
+
+Créer un formulaire clair et premium.
+
+BLOC A — IDENTITÉ
+
+- Nom d’affichage de l’invitation.
+- Prénom et nom du contact principal.
+- Salutation personnalisée.
+- Téléphone facultatif.
+- E-mail facultatif.
+- Note interne, jamais visible par l’invité.
+
+BLOC B — TYPE D’INVITATION
+
+Choix :
+- Individuelle.
+- En couple, deux personnes nommées.
+- Avec accompagnant libre.
+- Familiale.
+
+Selon le choix :
+- Nom de la deuxième personne.
+- Nombre maximal d’adultes.
+- Nombre maximal d’enfants.
+- Nombre maximal total.
+
+Les valeurs doivent être cohérentes.
+
+Exemple :
+individuel = une personne, aucun accompagnant.
+Couple = deux personnes au maximum.
+Familial = limites définies par l’organisateur.
+
+BLOC C — ÉVÉNEMENTS AUTORISÉS
+
+Cases à cocher :
+☐ Mariage civil.
+☐ Cérémonie religieuse.
+☐ Accueil au domicile.
+☐ Vin d’honneur.
+☐ Grande soirée.
+
+Exiger au moins un événement pour une invitation active.
+
+BLOC D — CAPACITÉS PAR ÉVÉNEMENT
+
+Prévoir un mode simple :
+la même limite pour tous les événements cochés.
+
+Prévoir un mode avancé :
+limites différentes selon l’événement.
+
+Exemple :
+- Église : deux personnes.
+- Soirée : une personne.
+
+Les limites par événement ne doivent pas dépasser la capacité globale autorisée.
+
+BLOC E — PERSONNALISATION
+
+- Petit mot personnel.
+- Langue préférée.
+- Date limite de réponse facultative.
+- Expiration facultative du lien.
+- Modèle visuel si plusieurs modèles existent.
+
+BLOC F — ACTIONS
+
+- Enregistrer en brouillon.
+- Prévisualiser.
+- Activer l’invitation.
+- Générer le lien.
+- Copier le lien.
+- Préparer le partage WhatsApp.
+- Régénérer le lien.
+- Révoquer l’invitation.
+
+Ne pas changer le lien à chaque modification du nom ou des événements.
+La régénération doit être une action volontaire.
+
+────────────────────────────────────
+11. LIENS PRIVÉS ET CONTRÔLE D’ACCÈS
+────────────────────────────────────
+
+Format possible :
+/invitation/{tokenAleatoire}
+
+Le token doit être :
+- Créé côté serveur avec un générateur cryptographiquement sûr.
+- Suffisamment long.
+- Non séquentiel.
+- Non dérivé du nom, téléphone ou e-mail.
+
+Ne pas utiliser :
+/invitation/1
+ou
+?nom=Aline&soiree=true
+
+Les paramètres envoyés par le client ne doivent pas donner de droits.
+
+Le serveur :
+1. Vérifie le token.
+2. Vérifie le statut de l’invitation.
+3. Vérifie l’expiration si utilisée.
+4. Charge les événements réellement autorisés.
+5. Retourne uniquement les champs nécessaires.
+
+Préférer le stockage du condensat du token plutôt que le secret brut lorsque l’architecture le permet.
+
+Prévoir :
+- Révocation.
+- Rotation du token.
+- Invalidation de l’ancien lien après rotation.
+- Vérification des droits à chaque opération sensible.
+- Limitation des tentatives.
+- Messages d’erreur non révélateurs.
+
+IMPORTANT :
+Le lien est un secret de possession.
+Une personne qui reçoit le lien transféré peut potentiellement l’utiliser.
+
+Ne pas prétendre empêcher absolument le transfert.
+
+Proposer, en option, un contrôle supplémentaire :
+- Code séparé.
+- Ou vérification d’un contact avec un service opérationnel.
+
+Ne pas simuler de SMS.
+
+Protection de la page privée :
+- noindex, nofollow.
+- Pas de sitemap public des invitations.
+- Pas de nom d’invité dans les métadonnées de partage.
+- Referrer-Policy restrictive.
+- Pas d’outils tiers inutiles susceptibles de recevoir le token.
+- Pas de cache partagé public contenant les données d’une invitation.
+- Ne pas journaliser les liens secrets en clair.
+
+────────────────────────────────────
+12. CONFIRMATION DE PRÉSENCE PERSONNALISÉE
+────────────────────────────────────
+
+Le formulaire affiche uniquement les événements autorisés.
+
+Pour chaque événement :
+- Oui.
+- Non.
+- À confirmer, si cette option est activée.
+
+Pour chaque personne autorisée :
+- Nom si nécessaire.
+- Participation par événement.
+
+Autres champs facultatifs :
+- Préférence alimentaire.
+- Besoin d’une information d’accès.
+- Message aux mariés.
+
+Ne pas collecter inutilement de données sensibles.
+
+Les restrictions doivent être contrôlées côté serveur :
+- Impossible de répondre pour un événement non autorisé.
+- Impossible de dépasser le nombre de places.
+- Impossible d’ajouter un accompagnant sur une invitation individuelle.
+
+Une erreur de validation ne doit pas effacer le formulaire.
+
+Après sauvegarde réelle :
+« Merci, votre réponse a bien été enregistrée. »
+
+Prévoir :
+- Modification de la réponse jusqu’à la date limite si autorisée.
+- Date de dernière mise à jour.
+- Récapitulatif.
+- Gestion des doublons.
+- Enregistrement idempotent.
+- Réponses par personne et par événement.
+
+Ne pas considérer la simple ouverture du lien comme une présence confirmée.
+
+────────────────────────────────────
+13. PARTAGE WHATSAPP DEPUIS L’ADMINISTRATION
+────────────────────────────────────
+
+Le bouton de partage prépare un message adapté.
+
+Exemple :
+
+« Bonjour {nom},
+
+Joseph et Marie ont le plaisir de vous inviter à partager la célébration de leur mariage, le mardi 1er décembre 2026.
+
+Découvrez votre invitation personnelle et confirmez votre présence ici :
+{lienPrive}
+
+Nous serons heureux de partager ce moment avec vous. »
+
+Ne pas inclure le programme complet si cela peut dévoiler des événements non autorisés.
+
+Si un numéro a été renseigné :
+préparer un lien wa.me correctement encodé.
+
+Sinon :
+utiliser le partage natif ou la copie du message.
+
+IMPORTANT :
+L’utilisateur doit envoyer lui-même le message dans WhatsApp.
+Ne pas annoncer un envoi automatique sans service réel.
+
+Distinguer :
+- Lien généré.
+- Message préparé.
+- Envoi déclaré manuellement par l’administrateur.
+- Invitation consultée, si ce suivi minimal est activé et décrit.
+- Réponse reçue.
+
+L’ouverture d’un lien peut provenir d’un robot de prévisualisation.
+Ne pas traiter une simple requête GET comme la preuve certaine que l’invité a lu son invitation.
+
+────────────────────────────────────
+14. TABLEAU DE BORD ADMINISTRATEUR
+────────────────────────────────────
+
+Afficher :
+
+- Nombre d’invitations.
+- Nombre de personnes conviées.
+- Réponses reçues.
+- Personnes présentes prévues par événement.
+- Personnes ayant décliné.
+- Réponses en attente.
+- Besoins alimentaires renseignés, accès restreint.
+
+Ne pas confondre nombre d’invitations et nombre de personnes.
+
+Tableau :
+- Nom.
+- Type d’invitation.
+- Événements.
+- Capacité.
+- Statut.
+- Réponse.
+- Dernière modification.
+- Actions.
+
+Recherche :
+- Nom.
+- Téléphone.
+- E-mail.
+- Note interne si autorisé.
+
+Filtres :
+- Événement.
+- Individuel / couple / famille.
+- En attente / accepté / décliné / partiel.
+- Invitation active / révoquée.
+
+Actions :
+- Modifier.
+- Prévisualiser en mode invité.
+- Copier le lien.
+- Partager.
+- Dupliquer les paramètres vers une nouvelle invitation.
+- Révoquer.
+- Exporter.
+
+Duplication :
+créer un nouvel identifiant et un nouveau token.
+Ne jamais partager le token de l’invitation d’origine.
+
+Export CSV :
+- Données utiles seulement.
+- Accès réservé.
+- Protection contre l’injection de formules.
+- Pas de token brut exporté par défaut.
+
+────────────────────────────────────
+15. LOCALISATION ET AGENDA
+────────────────────────────────────
+
+Chaque événement possède son propre lieu.
+
+Ne pas utiliser une seule carte pour tout le programme.
+
+Bouton itinéraire :
+actif seulement avec un lieu précis validé.
+
+Pour le domicile :
+adresse visible uniquement pour les invitations autorisées à cet événement.
+
+Agenda :
+- Export uniquement des événements autorisés.
+- Un événement par fichier ou un calendrier regroupé.
+- Informations issues du serveur.
+- Dates et fuseau corrects.
+- Africa/Douala pour l’affichage local.
+
+Ne pas inventer de fin de cérémonie.
+
+Pour la soirée :
+si l’heure de fin est inconnue, gérer un événement sans heure de fin explicite et indiquer « jusqu’à l’aube » dans la description.
+Ne pas transformer arbitrairement cela en 06 h.
+
+────────────────────────────────────
+16. DRESS CODE PERSONNALISÉ
+────────────────────────────────────
+
+Afficher un récapitulatif selon le programme de la personne.
+
+Mairie :
+tenue de ville élégante et soignée.
+
+Église et autres moments :
+tenue élégante et adaptée.
+
+Soirée :
+tenue de soirée pour les femmes comme pour les hommes.
+Thème Rose & Blanc.
+
+Utiliser des nuances graphiques et des suggestions textuelles.
+Ne pas imposer de modèle vestimentaire non communiqué.
+
+Ne pas montrer une section dédiée à la soirée aux invités qui n’y sont pas conviés.
+
+────────────────────────────────────
+17. GALERIE ET MESSAGES AUX MARIÉS
+────────────────────────────────────
+
+Prévoir une galerie de souvenirs activable.
+
+Par défaut :
+- Album commun approuvé.
+- Accès réservé aux invités disposant d’une invitation active.
+- Contributions modérées.
+- Aucun album public automatique.
+
+Prévoir des niveaux de visibilité :
+- Souvenirs communs.
+- Médias liés à un événement.
+
+Un média lié à un événement doit respecter les mêmes droits d’accès si l’organisation souhaite garder cet événement privé.
+
+Contributions :
+- Prénom.
+- Photos.
+- Légende facultative.
+- Consentement.
+- Stockage réel.
+- Statut pending.
+- Validation familiale.
+
+Limites :
+- 10 fichiers par envoi.
+- 10 Mo par fichier.
+- JPEG, PNG, WebP.
+
+Prévoir :
+- Prévisualisation.
+- Progression.
+- Nouvelle tentative.
+- Validation serveur.
+- Miniatures.
+- Retrait des métadonnées GPS.
+- Noms de fichiers aléatoires.
+- Stockage privé.
+
+Livre de vœux :
+- Message.
+- Nom d’affichage.
+- Choix de publication.
+- Modération.
+
+Ne pas publier de faux témoignages.
+
+────────────────────────────────────
+18. FRANÇAIS ET ANGLAIS
+────────────────────────────────────
+
+Prévoir une interface bilingue.
+
+Français par défaut.
+Sélecteur FR / EN.
+
+Traduire :
+- Navigation.
+- Invitation.
+- Événements.
+- Dress code.
+- Formulaires.
+- Erreurs.
+- Messages de confirmation.
+- Administration.
+- Confidentialité.
+- Messages de partage.
+
+Fichiers :
+fr.json
+en.json
+
+Conserver :
+- Page courante.
+- Champs remplis.
+- Choix de langue.
+
+Mettre à jour document.lang.
+Formater les dates selon la langue.
+
+Les noms propres ne sont pas traduits.
+Les messages personnels restent dans leur langue originale, sauf traduction réelle fournie.
+
+────────────────────────────────────
+19. ANIMATIONS PREMIUM
+────────────────────────────────────
+
+Créer des animations élégantes :
+- Révélation du monogramme J & M.
+- Apparition progressive des noms.
+- Lignes florales SVG.
+- Transitions de la timeline.
+- Ouverture douce des détails.
+- Micro-interactions des boutons.
+- Lightbox raffinée.
+
+Une courte animation d’ouverture de faire-part peut être ajoutée :
+- Ignorable.
+- Non bloquante.
+- Non rejouée à chaque navigation.
+- Désactivée en préférence d’animations réduites.
+
+Éviter :
+- Cœurs qui tombent continuellement.
+- Défilement forcé.
+- Confettis permanents.
+- Son automatique.
+- Animation de visage.
+- Chargements lourds.
+
+Utiliser Motion, CSS et SVG.
+Canvas uniquement si un effet apporte réellement quelque chose et reste léger.
+
+────────────────────────────────────
+20. BACKEND ET MODÈLE DE DONNÉES
+────────────────────────────────────
+
+Utiliser Supabase :
+- PostgreSQL.
+- Auth.
+- Storage privé.
+- Fonctions serveur.
+- RLS.
+
+Tables proposées :
+- weddings.
+- wedding_events.
+- invitations.
+- invitation_event_access.
+- invitation_people.
+- rsvp_responses.
+- guest_messages.
+- photos.
+- admin_roles.
+- audit_logs.
+
+Séparer :
+- Configuration du mariage.
+- Contenu des événements.
+- Droits de l’invitation.
+- Personnes.
+- Réponses.
+
+Chaque invitation est liée à un seul mariage.
+Chaque événement autorisé doit appartenir à ce même mariage.
+
+Contraintes :
+- Unicité des autorisations invitation/événement.
+- Capacités positives et cohérentes.
+- Réponses limitées aux personnes et événements autorisés.
+- Transactions pour les modifications groupées.
+- Prévention des mises à jour concurrentes destructrices.
+
+Les invités ne doivent pas avoir d’accès direct en lecture à toutes les tables d’invitations.
+
+Utiliser une fonction serveur sécurisée pour résoudre un token et retourner une vue filtrée.
+
+Aucune clé service_role dans le navigateur.
+
+Fournir :
+- Migrations SQL.
+- Politiques RLS.
+- Fonctions serveur.
+- Configuration Storage.
+- Exemple de variables d’environnement sans secrets.
+- Instructions.
+
+────────────────────────────────────
+21. AUTHENTIFICATION ADMINISTRATEUR
+────────────────────────────────────
+
+Administration avec authentification réelle.
+
+Pas :
+- D’inscription publique d’administrateurs.
+- De mot de passe dans le code.
+- De contrôle uniquement côté interface.
+
+Prévoir :
+- Administrateur principal.
+- Gestionnaire des invitations.
+- Modérateur des souvenirs si nécessaire.
+
+Actions sensibles :
+- Révocation.
+- Rotation de lien.
+- Export.
+- Suppression.
+- Modification massive des autorisations.
+
+Demander une confirmation et journaliser les actions importantes.
+
+────────────────────────────────────
+22. CONFIDENTIALITÉ ET FIABILITÉ
+────────────────────────────────────
+
+Prévoir une notice expliquant :
+- Les informations collectées.
+- Leur usage pour l’organisation.
+- La confidentialité du lien.
+- La publication des photos et messages.
+- Le moyen de demander une suppression.
+- La durée de conservation.
+
+Aucun suivi publicitaire.
+Aucune reconnaissance faciale.
+Aucune liste publique des invités.
+Aucun plan privé dans les métadonnées publiques.
+
+Ne pas promettre une protection absolue contre le transfert d’un lien ou une capture d’écran.
+
+Sans backend configuré :
+- La page publique fonctionne.
+- Une démonstration visuelle peut exister, clairement signalée.
+- La création de vrais liens et l’enregistrement des réponses sont indisponibles.
+- Aucun faux message de réussite.
+
+────────────────────────────────────
+23. QUALITÉ TECHNIQUE
+────────────────────────────────────
+
+Utiliser :
+- React.
+- TypeScript.
+- Tailwind CSS.
+- Routage adapté.
+- Poppins.
+- Une police de titre complémentaire.
+- Lucide React.
+- Motion ou équivalent.
+- Supabase.
+- Une solution i18n.
+
+Mobile first dès 360 px.
+
+Exigences :
+- Aucun débordement horizontal.
+- Boutons faciles à toucher.
+- Champs avec labels.
+- Focus visible.
+- Navigation clavier.
+- Contrastes.
+- Un H1 par page.
+- Gestion du focus dans les modales.
+- Notifications accessibles.
+- Images optimisées.
+- Chargement différé.
+- Bonne expérience sur connexion modeste.
+
+Aucune signature promotionnelle :
+- « Généré par IA ».
+- « Made with AI ».
+- « Powered by Gemini ».
+- Badge de l’outil.
+
+Respecter les licences des assets et dépendances.
+
+────────────────────────────────────
+24. TESTS INDISPENSABLES
+────────────────────────────────────
+
+Tester au minimum :
+
+1. Invitation uniquement église.
+2. Invitation uniquement soirée.
+3. Invitation mairie + église.
+4. Invitation à tous les événements.
+5. Invitation individuelle.
+6. Couple nommé.
+7. Accompagnant libre.
+8. Famille avec adultes et enfants.
+9. Limites différentes par événement.
+10. Tentative de dépasser les places.
+11. Tentative de répondre à un événement non autorisé.
+12. Lien invalide.
+13. Lien révoqué.
+14. Rotation de token.
+15. Modification des droits après génération.
+16. Absence des événements interdits dans les réponses API.
+17. Export agenda filtré.
+18. Métadonnées sans nom d’invité.
+19. Réponse sauvegardée réellement.
+20. Accès non autorisé à l’administration.
+21. Galerie respectant les droits.
+22. Affichage mobile.
+23. Traductions.
+24. Animations réduites.
+
+Ajouter des tests automatisés pour les règles d’autorisation critiques.
+
+Ne pas prétendre avoir testé une action externe si elle n’a pas été exécutée.
+
+────────────────────────────────────
+25. LIVRABLE FINAL
+────────────────────────────────────
+
+Produis :
+- Le site public.
+- Le modèle d’invitation privée.
+- Le formulaire d’administration.
+- La gestion des liens.
+- La confirmation de présence.
+- Le backend sécurisé.
+- Les migrations.
+- Les traductions.
+- Les instructions de configuration.
+
+Priorités :
+1. Élégance visuelle.
+2. Personnalisation réelle.
+3. Confidentialité des événements.
+4. Simplicité pour l’invité.
+5. Facilité d’utilisation pour les mariés.
+
+À la fin, explique brièvement :
+- Comment créer une invitation.
+- Comment cocher les événements.
+- Comment autoriser ou non un accompagnant.
+- Comment partager le lien.
+- Comment consulter les réponses.
+- Comment révoquer un lien.
+- Les services restant réellement à connecter.
+
+Ne présente pas une simple simulation front-end comme un système d’invitations privées sécurisé.
